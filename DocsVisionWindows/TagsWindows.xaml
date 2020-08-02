@@ -1,0 +1,26 @@
+﻿<Window x:Class="DocsVisionClient.DocsVisionWindows.TagsWindows"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DocsVisionClient.DocsVisionWindows"
+        mc:Ignorable="d"
+        Title="Тэги для писем" Height="360" Width="360" WindowStartupLocation="CenterScreen" MinWidth="360" MinHeight="360" MaxWidth="360">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <StackPanel VerticalAlignment="Center" Margin="4,0,2,0">
+            <TextBox x:Name="tbNewTag" Height="23" TextWrapping="Wrap" Text="Имя тэга" Padding="4,0,0,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Background="#FFD7FFC0"/>
+            <Label Content="" MinHeight="20" Height="20" MaxHeight="20"/>
+            <Button x:Name="btnAddTag" Content="Добавить -&gt;" FontWeight="Bold" Background="#FFFBFB66"/>
+            <Label Content="" MinHeight="20" Height="20" MaxHeight="20"/>
+            <Button x:Name="btnDeleteTag" Content="Удалить &lt;-" FontWeight="Bold" Background="#FFFFA7AB"/>
+            <Label Content="" MinHeight="20" Height="20" MaxHeight="20"/>
+            <Button x:Name="btnRenameTag" Content="Переименовать" FontWeight="Bold" Background="#FF92F0FF"/>
+        </StackPanel>
+        <ListBox x:Name="lbxTags" Grid.Column="1" DisplayMemberPath="TagName" SelectedValuePath="IDTag" Background="#FFA4FF89" Margin="2,4,4,4" FontWeight="Bold"/>
+
+    </Grid>
+</Window>

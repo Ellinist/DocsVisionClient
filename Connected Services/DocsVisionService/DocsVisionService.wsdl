@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="DocsVisionService" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="https://localhost:44330/DocsVisionService.svc?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="https://localhost:44330/DocsVisionService.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="https://localhost:44330/DocsVisionService.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/System" />
+      <xsd:import schemaLocation="https://localhost:44330/DocsVisionService.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/DocsVisionWebSide.DocsVisionClasses" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IDocsVisionService_GetAllDepartments_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAllDepartments" />
+  </wsdl:message>
+  <wsdl:message name="IDocsVisionService_GetAllDepartments_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAllDepartmentsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDocsVisionService_AddNewDepartment_InputMessage">
+    <wsdl:part name="parameters" element="tns:AddNewDepartment" />
+  </wsdl:message>
+  <wsdl:message name="IDocsVisionService_AddNewDepartment_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AddNewDepartmentResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDocsVisionService_UpdateDepartment_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateDepartment" />
+  </wsdl:message>
+  <wsdl:message name="IDocsVisionService_UpdateDepartment_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateDepartmentResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDocsVisionService_DeleteDepartment_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteDepartment" />
+  </wsdl:message>
+  <wsdl:message name="IDocsVisionService_DeleteDepartment_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteDepartmentResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDocsVisionService_GetLetters_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetLetters" />
+  </wsdl:message>
+  <wsdl:message name="IDocsVisionService_GetLetters_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetLettersResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDocsVisionService_AddLetter_InputMessage">
+    <wsdl:part name="parameters" element="tns:AddLetter" />
+  </wsdl:message>
+  <wsdl:message name="IDocsVisionService_AddLetter_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AddLetterResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDocsVisionService_DeleteLetter_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteLetter" />
+  </wsdl:message>
+  <wsdl:message name="IDocsVisionService_DeleteLetter_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteLetterResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDocsVisionService_EditLetter_InputMessage">
+    <wsdl:part name="parameters" element="tns:EditLetter" />
+  </wsdl:message>
+  <wsdl:message name="IDocsVisionService_EditLetter_OutputMessage">
+    <wsdl:part name="parameters" element="tns:EditLetterResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDocsVisionService_GetTagsOfLetter_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetTagsOfLetter" />
+  </wsdl:message>
+  <wsdl:message name="IDocsVisionService_GetTagsOfLetter_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetTagsOfLetterResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDocsVisionService_UpdateTagsOfLetter_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateTagsOfLetter" />
+  </wsdl:message>
+  <wsdl:message name="IDocsVisionService_UpdateTagsOfLetter_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateTagsOfLetterResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDocsVisionService_GetTags_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetTags" />
+  </wsdl:message>
+  <wsdl:message name="IDocsVisionService_GetTags_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetTagsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDocsVisionService_DeleteTag_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteTag" />
+  </wsdl:message>
+  <wsdl:message name="IDocsVisionService_DeleteTag_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteTagResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDocsVisionService_AddTag_InputMessage">
+    <wsdl:part name="parameters" element="tns:AddTag" />
+  </wsdl:message>
+  <wsdl:message name="IDocsVisionService_AddTag_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AddTagResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDocsVisionService_RenameTag_InputMessage">
+    <wsdl:part name="parameters" element="tns:RenameTag" />
+  </wsdl:message>
+  <wsdl:message name="IDocsVisionService_RenameTag_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RenameTagResponse" />
+  </wsdl:message>
+  <wsdl:portType name="IDocsVisionService">
+    <wsdl:operation name="GetAllDepartments">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDocsVisionService/GetAllDepartments" message="tns:IDocsVisionService_GetAllDepartments_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDocsVisionService/GetAllDepartmentsResponse" message="tns:IDocsVisionService_GetAllDepartments_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AddNewDepartment">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDocsVisionService/AddNewDepartment" message="tns:IDocsVisionService_AddNewDepartment_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDocsVisionService/AddNewDepartmentResponse" message="tns:IDocsVisionService_AddNewDepartment_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateDepartment">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDocsVisionService/UpdateDepartment" message="tns:IDocsVisionService_UpdateDepartment_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDocsVisionService/UpdateDepartmentResponse" message="tns:IDocsVisionService_UpdateDepartment_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteDepartment">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDocsVisionService/DeleteDepartment" message="tns:IDocsVisionService_DeleteDepartment_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDocsVisionService/DeleteDepartmentResponse" message="tns:IDocsVisionService_DeleteDepartment_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetLetters">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDocsVisionService/GetLetters" message="tns:IDocsVisionService_GetLetters_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDocsVisionService/GetLettersResponse" message="tns:IDocsVisionService_GetLetters_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AddLetter">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDocsVisionService/AddLetter" message="tns:IDocsVisionService_AddLetter_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDocsVisionService/AddLetterResponse" message="tns:IDocsVisionService_AddLetter_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteLetter">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDocsVisionService/DeleteLetter" message="tns:IDocsVisionService_DeleteLetter_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDocsVisionService/DeleteLetterResponse" message="tns:IDocsVisionService_DeleteLetter_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="EditLetter">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDocsVisionService/EditLetter" message="tns:IDocsVisionService_EditLetter_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDocsVisionService/EditLetterResponse" message="tns:IDocsVisionService_EditLetter_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetTagsOfLetter">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDocsVisionService/GetTagsOfLetter" message="tns:IDocsVisionService_GetTagsOfLetter_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDocsVisionService/GetTagsOfLetterResponse" message="tns:IDocsVisionService_GetTagsOfLetter_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateTagsOfLetter">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDocsVisionService/UpdateTagsOfLetter" message="tns:IDocsVisionService_UpdateTagsOfLetter_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDocsVisionService/UpdateTagsOfLetterResponse" message="tns:IDocsVisionService_UpdateTagsOfLetter_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetTags">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDocsVisionService/GetTags" message="tns:IDocsVisionService_GetTags_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDocsVisionService/GetTagsResponse" message="tns:IDocsVisionService_GetTags_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteTag">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDocsVisionService/DeleteTag" message="tns:IDocsVisionService_DeleteTag_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDocsVisionService/DeleteTagResponse" message="tns:IDocsVisionService_DeleteTag_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AddTag">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDocsVisionService/AddTag" message="tns:IDocsVisionService_AddTag_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDocsVisionService/AddTagResponse" message="tns:IDocsVisionService_AddTag_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RenameTag">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDocsVisionService/RenameTag" message="tns:IDocsVisionService_RenameTag_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDocsVisionService/RenameTagResponse" message="tns:IDocsVisionService_RenameTag_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BasicHttpBinding_IDocsVisionService" type="tns:IDocsVisionService">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetAllDepartments">
+      <soap:operation soapAction="http://tempuri.org/IDocsVisionService/GetAllDepartments" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddNewDepartment">
+      <soap:operation soapAction="http://tempuri.org/IDocsVisionService/AddNewDepartment" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateDepartment">
+      <soap:operation soapAction="http://tempuri.org/IDocsVisionService/UpdateDepartment" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteDepartment">
+      <soap:operation soapAction="http://tempuri.org/IDocsVisionService/DeleteDepartment" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetLetters">
+      <soap:operation soapAction="http://tempuri.org/IDocsVisionService/GetLetters" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddLetter">
+      <soap:operation soapAction="http://tempuri.org/IDocsVisionService/AddLetter" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteLetter">
+      <soap:operation soapAction="http://tempuri.org/IDocsVisionService/DeleteLetter" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="EditLetter">
+      <soap:operation soapAction="http://tempuri.org/IDocsVisionService/EditLetter" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTagsOfLetter">
+      <soap:operation soapAction="http://tempuri.org/IDocsVisionService/GetTagsOfLetter" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateTagsOfLetter">
+      <soap:operation soapAction="http://tempuri.org/IDocsVisionService/UpdateTagsOfLetter" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTags">
+      <soap:operation soapAction="http://tempuri.org/IDocsVisionService/GetTags" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteTag">
+      <soap:operation soapAction="http://tempuri.org/IDocsVisionService/DeleteTag" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddTag">
+      <soap:operation soapAction="http://tempuri.org/IDocsVisionService/AddTag" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RenameTag">
+      <soap:operation soapAction="http://tempuri.org/IDocsVisionService/RenameTag" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="DocsVisionService">
+    <wsdl:port name="BasicHttpBinding_IDocsVisionService" binding="tns:BasicHttpBinding_IDocsVisionService">
+      <soap:address location="http://localhost:62951/DocsVisionService.svc" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="507ecbb2-ab62-45d8-9d70-2ed2297e0809" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings>
+      <CollectionMapping TypeName="System.Collections.Generic.List`1" Category="List" />
+    </CollectionMappings>
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="https://localhost:44330/DocsVisionService.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="DocsVisionService.disco" MetadataType="Disco" ID="2242eb73-246c-4cc3-8080-158a809889e1" SourceId="1" SourceUrl="https://localhost:44330/DocsVisionService.svc?disco" />
+    <MetadataFile FileName="DocsVisionService.wsdl" MetadataType="Wsdl" ID="74c2fdd9-950b-497c-9a98-b87a39271d14" SourceId="1" SourceUrl="https://localhost:44330/DocsVisionService.svc?wsdl" />
+    <MetadataFile FileName="DocsVisionService3.xsd" MetadataType="Schema" ID="f452c211-cb41-4019-ad38-dbd02f3d69a4" SourceId="1" SourceUrl="https://localhost:44330/DocsVisionService.svc?xsd=xsd3" />
+    <MetadataFile FileName="DocsVisionService.xsd" MetadataType="Schema" ID="f928c440-6e3f-4488-97a1-45b7dd817a12" SourceId="1" SourceUrl="https://localhost:44330/DocsVisionService.svc?xsd=xsd2" />
+    <MetadataFile FileName="DocsVisionService1.xsd" MetadataType="Schema" ID="393b6e81-879a-443a-8c3b-b442d7de8b43" SourceId="1" SourceUrl="https://localhost:44330/DocsVisionService.svc?xsd=xsd1" />
+    <MetadataFile FileName="DocsVisionService2.xsd" MetadataType="Schema" ID="67ba7cbc-08d5-4ebb-8bec-becf28584e36" SourceId="1" SourceUrl="https://localhost:44330/DocsVisionService.svc?xsd=xsd0" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="https://localhost:44330/DocsVisionService.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/System" />
+  <xs:import schemaLocation="https://localhost:44330/DocsVisionService.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/DocsVisionWebSide.DocsVisionClasses" />
+  <xs:element name="GetAllDepartments">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetAllDepartmentsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/System" minOccurs="0" name="GetAllDepartmentsResult" nillable="true" type="q1:TupleOfArrayOfDepartmentsintLM7PO_PPy" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddNewDepartment">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="departmentName" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="departmentComment" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="mainDepartmentFlag" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddNewDepartmentResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="AddNewDepartmentResult" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UpdateDepartment">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="idDepartment" type="xs:int" />
+        <xs:element minOccurs="0" name="departmentName" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="departmentComment" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="mainDepartmentFlag" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UpdateDepartmentResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="UpdateDepartmentResult" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteDepartment">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="idDepartment" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteDepartmentResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="DeleteDepartmentResult" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetLetters">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="whereParams" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetLettersResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/System" minOccurs="0" name="GetLettersResult" nillable="true" type="q2:TupleOfArrayOfLettersintLM7PO_PPy" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddLetter">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="idDepartmentLetter" type="xs:int" />
+        <xs:element minOccurs="0" name="letterName" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="letterDateTime" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="letterTopic" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="letterFrom" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="letterTo" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="letterContent" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="letterComment" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="isLetterIncoming" type="xs:boolean" />
+        <xs:element minOccurs="0" name="whereCondition" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddLetterResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/System" minOccurs="0" name="AddLetterResult" nillable="true" type="q3:TupleOfintint" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteLetter">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="idLetter" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteLetterResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="DeleteLetterResult" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="EditLetter">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="idLetter" type="xs:int" />
+        <xs:element minOccurs="0" name="idDepartmentLetter" type="xs:int" />
+        <xs:element minOccurs="0" name="letterName" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="letterDateTime" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="letterTopic" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="letterFrom" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="letterTo" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="letterContent" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="letterComment" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="isLetterIncoming" type="xs:boolean" />
+        <xs:element minOccurs="0" name="whereCondition" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="EditLetterResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="EditLetterResult" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetTagsOfLetter">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="idLetter" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetTagsOfLetterResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/System" minOccurs="0" name="GetTagsOfLetterResult" nillable="true" type="q4:TupleOfArrayOfTagsOfLetterintLM7PO_PPy" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UpdateTagsOfLetter">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/DocsVisionWebSide.DocsVisionClasses" minOccurs="0" name="tagsOfLetterList" nillable="true" type="q5:ArrayOfTagsOfLetter" />
+        <xs:element minOccurs="0" name="idLetter" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UpdateTagsOfLetterResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="UpdateTagsOfLetterResult" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetTags">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetTagsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/System" minOccurs="0" name="GetTagsResult" nillable="true" type="q6:TupleOfArrayOfTagsintLM7PO_PPy" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteTag">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="idTag" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteTagResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="DeleteTagResult" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddTag">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="tag" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddTagResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="AddTagResult" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RenameTag">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="idTag" type="xs:int" />
+        <xs:element minOccurs="0" name="tag" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RenameTagResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="RenameTagResult" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
