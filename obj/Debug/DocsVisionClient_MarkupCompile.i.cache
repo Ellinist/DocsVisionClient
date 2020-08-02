@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-D:\VS2019_Work\DocsVision\DocsVisionClient\obj\Debug\
+D:\GitHub\DocsVisionClient\obj\Debug\
 DocsVisionClient
 none
 false
 DEBUG;TRACE
-D:\VS2019_Work\DocsVision\DocsVisionClient\App.xaml
+D:\GitHub\DocsVisionClient\App.xaml
 6888051389
 
-16919985130
+171439826480
 16236314499
 DocsVisionWindows\AddEditLetterWindow.xaml;DocsVisionWindows\DepartmentsWindow.xaml;DocsVisionWindows\LettersWindow.xaml;DocsVisionWindows\TagsWindows.xaml;MainWindow.xaml;DocsVisionWindows\SettingsWindow.xaml;
 
-False
+True
 

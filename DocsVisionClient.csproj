@@ -63,6 +63,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="DocsVisionClasses\Attachment.cs" />
     <Compile Include="DocsVisionClasses\Departments.cs" />
     <Compile Include="DocsVisionClasses\Tags.cs" />
     <Compile Include="DocsVisionClasses\TagsOfLetter.cs" />
