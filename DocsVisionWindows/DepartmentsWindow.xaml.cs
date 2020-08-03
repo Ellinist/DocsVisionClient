@@ -28,34 +28,7 @@ namespace DocsVisionClient.DocsVisionWindows
         public DepartmentsWindow()
         {
             InitializeComponent();
-            // Вытягиваем со стороны сервера кортеж со списком отделов и кодом выполнения операции
-            (List<Departments> selectDepartments, int selectErrCode) = DocsVisionStage.GetAllDepartments();
-            if (selectErrCode == 1) // Проверка на успешность операции (через элемент кортежа по контракту)
-            {
-                // Все успешно - продолжаем работу
-                departmentsList = selectDepartments;
-                #region Установка начальных параметров элементов окна
-                tbDepartmentName.IsEnabled = false;                        // Устанавливаем недоступность поля "Название отдела"
-                tbDepartmentComment.IsEnabled = false;                     // Устанавливаем недоступность поля "Комментарий к отделу"
-                cbxDepartmentMain.IsEnabled = false;                       // Устанавливаем недоступность поля "Головной отдел"
-                btnDenyOperation.Visibility = Visibility.Collapsed;        // Скрываем кнопку осуществления операций
-                btnDepartmentOperation.Visibility = Visibility.Collapsed;  // Скрываем кнопку отмены действий
-                dgDepartments.IsHitTestVisible = true;                     // Разрешаем кликать по DataGrid  
-                #endregion
-                #region Подключение обработчиков событий (подписываемся на события)
-                Loaded += DepartmentsWindow_Loaded;                           // Обработчик события отображения окна
-                btnDepartmentEdit.Click += BtnDepartmentEdit_Click;           // Обработчик события нажатия на кнопку "Редактировать отдел"
-                btnDepartmentOperation.Click += BtnDepartmentOperation_Click; // Обработчик события нажатия на кнопку "Применить изменения"
-                btnDenyOperation.Click += BtnDenyOperation_Click;             // Обработчик события нажатия на кнопку "Отмена"
-                btnDepartmentNew.Click += BtnDepartmentNew_Click;             // Обработчик события нажатия на кнопку "Создать новый отдел"
-                btnDepartmentDelete.Click += BtnDepartmentDelete_Click;       // Обработчик события нажатия на кнопку "Удалить отдел"
-                #endregion
-            }
-            else
-            {
-                MessageBox.Show($"Не удалось получить список отделов организации! Код ошибки: {selectErrCode}", "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
-                //TODO Подумать, что делать в случае неудачи с первичной выборкой записей списка отделов
-            }
+            Loaded += DepartmentsWindow_Loaded;                           // Обработчик события отображения окна
         }
 
         /// <summary>
@@ -65,6 +38,48 @@ namespace DocsVisionClient.DocsVisionWindows
         /// <param name="e"></param>
         private void DepartmentsWindow_Loaded(object sender, RoutedEventArgs e)
         {
+            // Вытягиваем со стороны сервера кортеж со списком отделов и кодом выполнения операции
+            try
+            {
+                (List<Departments> selectDepartments, int selectErrCode) = DocsVisionStage.GetAllDepartments();
+                if (selectErrCode == 1) // Проверка на успешность операции (через элемент кортежа по контракту)
+                {
+                    // Все успешно - продолжаем работу
+                    departmentsList = selectDepartments;
+                    #region Установка начальных параметров элементов окна
+                    tbDepartmentName.IsEnabled = false;                        // Устанавливаем недоступность поля "Название отдела"
+                    tbDepartmentComment.IsEnabled = false;                     // Устанавливаем недоступность поля "Комментарий к отделу"
+                    cbxDepartmentMain.IsEnabled = false;                       // Устанавливаем недоступность поля "Головной отдел"
+                    btnDenyOperation.Visibility = Visibility.Collapsed;        // Скрываем кнопку осуществления операций
+                    btnDepartmentOperation.Visibility = Visibility.Collapsed;  // Скрываем кнопку отмены действий
+                    dgDepartments.IsHitTestVisible = true;                     // Разрешаем кликать по DataGrid  
+                    #endregion
+                    #region Подключение обработчиков событий (подписываемся на события)
+                    btnDepartmentEdit.Click += BtnDepartmentEdit_Click;           // Обработчик события нажатия на кнопку "Редактировать отдел"
+                    btnDepartmentOperation.Click += BtnDepartmentOperation_Click; // Обработчик события нажатия на кнопку "Применить изменения"
+                    btnDenyOperation.Click += BtnDenyOperation_Click;             // Обработчик события нажатия на кнопку "Отмена"
+                    btnDepartmentNew.Click += BtnDepartmentNew_Click;             // Обработчик события нажатия на кнопку "Создать новый отдел"
+                    btnDepartmentDelete.Click += BtnDepartmentDelete_Click;       // Обработчик события нажатия на кнопку "Удалить отдел"
+                    #endregion
+                }
+                else
+                {
+                    MessageBox.Show($"Не удалось получить список отделов организации! Код ошибки: {selectErrCode}", "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
+                    //TODO Подумать, что делать в случае неудачи с первичной выборкой записей списка отделов
+                }
+            }
+            catch (Exception connectException)
+            {
+                if (connectException.HResult == -2146233087)
+                {
+                    MessageBox.Show("Не запущена служба удаленного сервиса! Окно будет закрыто!", "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                else
+                {
+                    MessageBox.Show($"Произошла ошибка! Окно будет закрыто! Код ошибки: {connectException.HResult}", "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                this.Close();
+            }
             dgDepartments.ItemsSource = departmentsList;                      // Связываем DataGrid со списком отделов организации
             dgDepartments.SelectionChanged += DgDepartments_SelectionChanged; // Подписываемся на событие изменения выбора в DataGrid
             dgDepartments.SelectedIndex = 0;                                  // Позиционируем выбор в DataGrid на первой записи

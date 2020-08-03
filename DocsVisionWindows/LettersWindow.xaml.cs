@@ -29,30 +29,7 @@ namespace DocsVisionClient.DocsVisionWindows
         public LettersWindow()
         {
             InitializeComponent();
-            // Получаем кортеж списка отделов и кода ошибки
-            (List<Departments> selectDepartments, int selectErrCode) = DocsVisionStage.GetAllDepartments();
-            if(selectErrCode == 1) // Проверка на успешность выборки списка отделов
-            {
-                departmentsList = selectDepartments; // Сохраняем список отделов
-                if(departmentsList.Count == 0)
-                {
-                    // В БД не обнаружены отделы - дальнейшая работа с письмами невозможна, уведомляем об этом пользователя
-                    MessageBox.Show("В базе данных нет ни одного отдела! Работа с письмами невозможна!\nСоздайте хотя бы один отдел!", "Уведомление!", MessageBoxButton.OK, MessageBoxImage.Information);
-                    this.Close(); // Закрываем окно
-                }
-                else
-                {
-                    // Если в БД есть отделы, то продолжаем
-                    Loaded += LettersWindow_Loaded; // Подписываемся на событие загрузки окна
-                }
-            }
-            else
-            {
-                // В случае неуспешной выборки отделов выдаем сообщение пользователю
-                MessageBox.Show("Не удалось получить список отделов!", "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
-                //TODO Проработать действия на случай неудачного запроса
-            }
-            selectCondition = "SELECT * FROM tbLetters"; // Задаем условие поиска всех писем - данное условие может быть изменено в окне настроек
+            Loaded += LettersWindow_Loaded; // Подписываемся на событие загрузки окна
         }
 
         /// <summary>
@@ -62,16 +39,50 @@ namespace DocsVisionClient.DocsVisionWindows
         /// <param name="e"></param>
         private void LettersWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            lookUpDepartments.ItemsSource = departmentsList; // Присоединяем к LookUp-полю список отделов
-            #region Подписываемся на события нажатия кнопок
-            btnNewLetter.Click    += BtnNewLetter_Click;    // Кнопка создания нового письма
-            btnDeleteLetter.Click += BtnDeleteLetter_Click; // Кнопка удаления выбранного письма
-            btnEditLetter.Click   += BtnEditLetter_Click;   // Кнопка редактирования выбранного письма
-            btnSelect.Click       += BtnSelect_Click;       // Кнопка поиска по критериям
-            #endregion
-            ShowLetters(0, selectCondition); // Отображение списка писем по указанному запросу выборки - здесь: все письма из БД
-            dgLetters.SelectionChanged += DgLetters_SelectionChanged; // Подписываемся на событие выбора записи в DataGrid
-            dgLetters.Focus();                                        // Устанавливаем фокус на первой записи
+            try
+            {
+                // Получаем кортеж списка отделов и кода ошибки
+                (List<Departments> selectDepartments, int selectErrCode) = DocsVisionStage.GetAllDepartments();
+                if (selectErrCode == 1) // Проверка на успешность выборки списка отделов
+                {
+                    departmentsList = selectDepartments; // Сохраняем список отделов
+                    if (departmentsList.Count == 0)
+                    {
+                        // В БД не обнаружены отделы - дальнейшая работа с письмами невозможна, уведомляем об этом пользователя
+                        MessageBox.Show("В базе данных нет ни одного отдела! Работа с письмами невозможна!\nСоздайте хотя бы один отдел!", "Уведомление!", MessageBoxButton.OK, MessageBoxImage.Information);
+                        this.Close(); // Закрываем окно
+                    }
+                }
+                else
+                {
+                    // В случае неуспешной выборки отделов выдаем сообщение пользователю
+                    MessageBox.Show("Не удалось получить список отделов!", "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
+                    //TODO Проработать действия на случай неудачного запроса
+                }
+                selectCondition = "SELECT * FROM tbLetters"; // Задаем условие поиска всех писем - данное условие может быть изменено в окне настроек
+                lookUpDepartments.ItemsSource = departmentsList; // Присоединяем к LookUp-полю список отделов
+                #region Подписываемся на события нажатия кнопок
+                btnNewLetter.Click += BtnNewLetter_Click;    // Кнопка создания нового письма
+                btnDeleteLetter.Click += BtnDeleteLetter_Click; // Кнопка удаления выбранного письма
+                btnEditLetter.Click += BtnEditLetter_Click;   // Кнопка редактирования выбранного письма
+                btnSelect.Click += BtnSelect_Click;       // Кнопка поиска по критериям
+                #endregion
+                ShowLetters(0, selectCondition); // Отображение списка писем по указанному запросу выборки - здесь: все письма из БД
+                dgLetters.SelectionChanged += DgLetters_SelectionChanged; // Подписываемся на событие выбора записи в DataGrid
+                dgLetters.Focus();                                        // Устанавливаем фокус на первой записи
+            }
+            catch(Exception connectException)
+            {
+                if (connectException.HResult == -2146233087)
+                {
+                    MessageBox.Show("Не запущена служба удаленного сервиса! Окно будет закрыто!", "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                else
+                {
+                    MessageBox.Show($"Произошла ошибка! Окно будет закрыто! Код ошибки: {connectException.HResult}", "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                this.Close();
+            }
         }
 
         /// <summary>
