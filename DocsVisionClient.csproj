@@ -63,10 +63,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
-    <Compile Include="DocsVisionClasses\Attachment.cs" />
-    <Compile Include="DocsVisionClasses\Departments.cs" />
-    <Compile Include="DocsVisionClasses\Tags.cs" />
-    <Compile Include="DocsVisionClasses\TagsOfLetter.cs" />
+    <Compile Include="DocsVisionClasses\Attachments.cs" />
     <Compile Include="DocsVisionWindows\AddEditLetterWindow.xaml.cs">
       <DependentUpon>AddEditLetterWindow.xaml</DependentUpon>
     </Compile>
@@ -103,7 +100,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DocsVisionClasses\Letters.cs" />
     <Compile Include="DocsVisionWindows\TagsWindows.xaml.cs">
       <DependentUpon>TagsWindows.xaml</DependentUpon>
     </Compile>

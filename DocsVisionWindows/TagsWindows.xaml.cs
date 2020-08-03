@@ -11,7 +11,7 @@ namespace DocsVisionClient.DocsVisionWindows
     public partial class TagsWindows : Window
     {
         #region Блок определений
-        List<DocsVisionClasses.Tags> tagsList = new List<DocsVisionClasses.Tags>();
+        List<Tags> tagsList = new List<Tags>();
         private DocsVisionServiceClient DocsVisionStage = new DocsVisionServiceClient(); // Подключаемся к WCF-сервису "BasicHttpBinding_IDocsVisionService"
         #endregion
 
@@ -32,8 +32,9 @@ namespace DocsVisionClient.DocsVisionWindows
         private void TagsWindows_Loaded(object sender, RoutedEventArgs e)
         {
             // Получаем кортеж с параметрами: список тэгов, код ошибки
-            (List<DocsVisionService.Tags> inputTagsList, int errorCode) = DocsVisionStage.GetTags();
-            if(errorCode < 0)
+            (List<Tags> inputTagsList, int errorCode) = DocsVisionStage.GetTags();
+            //(List<DocsVisionService.Tags> inputTagsList, int errorCode) = DocsVisionStage.GetTags();
+            if (errorCode < 0)
             {
                 // Если код ошибки отрицательный - запрос неудачен! Выводим код ошибки
                 MessageBox.Show($"При получении списка тэгов возникла ошибка: {errorCode}", "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -41,7 +42,7 @@ namespace DocsVisionClient.DocsVisionWindows
             else
             {
                 // В случае успешности выборки
-                GetTags(inputTagsList);   // Конвертируем список тэгов и отображаем в контроле списка тэгов
+                lbxTags.ItemsSource = inputTagsList;
                 lbxTags.SelectedItem = 0; // Позиционируемся на первую запись
                 lbxTags.Focus();          // Устанавливаем фокус на записи позиционирования
                 #region Подписываемся на события
@@ -120,7 +121,7 @@ namespace DocsVisionClient.DocsVisionWindows
             tagsList.Clear(); // Очищаемы список
             // Получаем список тэгов с сервера
             // Результат - кортеж: первый параметр - список тэгов, второй параметр - код ошибки
-            (List<DocsVisionService.Tags> inputTagsList, int errorCode) = DocsVisionStage.GetTags();
+            (List<Tags> inputTagsList, int errorCode) = DocsVisionStage.GetTags();
             if(errorCode < 0)
             {
                 // Если выборка неуспешна, выводим сообщение с кодом ошибки
@@ -129,33 +130,10 @@ namespace DocsVisionClient.DocsVisionWindows
             else
             {
                 // В случае успешности выборки
-                GetTags(inputTagsList);   // Конвертируем список тэгов и отображаем в контроле списка тэгов
+                lbxTags.ItemsSource = inputTagsList;
                 lbxTags.SelectedItem = 0; // Позиционируемся на первую запись
                 lbxTags.Focus();          // Устанавливаем фокус на записи позиционирования
             }
-        }
-
-        /// <summary>
-        /// Метод конвертирования списка тэгов (из одного в другое пространство имен)
-        /// </summary>
-        /// <param name="inputTags"></param>
-        private void GetTags(List<DocsVisionService.Tags> inputTags)
-        {
-            // Созщдаем в пространстве имен клиента список тэгов 
-            List<DocsVisionClasses.Tags> resultTags = new List<DocsVisionClasses.Tags>();
-            // Пробегаем по циклу списка тэгов, полученного с сервера
-            for (int i = 0; i < inputTags.Count; i++)
-            {
-                // Копируем параметры
-                DocsVisionClasses.Tags tag = new DocsVisionClasses.Tags
-                {
-                    IDTag = inputTags[i].IDTag,
-                    TagName = inputTags[i].TagName
-                };
-                resultTags.Add(tag);
-            }
-            tagsList = resultTags;            // Обновляем переменную класса окна
-            lbxTags.ItemsSource = resultTags; // Устанавливаем у контрола списка тэгов источник записей
         }
     }
 }

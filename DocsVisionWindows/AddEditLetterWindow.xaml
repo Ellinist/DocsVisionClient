@@ -75,7 +75,13 @@
                 <Label Content="Вложения:" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Padding="5,3,5,5"/>
                 <Button Content="Добавить" Grid.Row="1" Margin="1"/>
             </Grid>
-            <TextBox Grid.Column="3" TextWrapping="Wrap" Text="Здесь будет набор вложений" BorderBrush="Black" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1,1,2,1" Background="#FFFBF9CC"/>
+            <ListBox x:Name="listbxTemp" Grid.Column="3" DisplayMemberPath="TagName" SelectedValuePath="IDTag">
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+            </ListBox>
         </Grid>
         <Grid Grid.Row="5">
             <Grid.ColumnDefinitions>

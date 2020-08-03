@@ -2,10 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Windows;
-using Departments = DocsVisionClient.DocsVisionClasses.Departments;
-using Letters = DocsVisionClient.DocsVisionClasses.Letters;
-using TagsOfLetter = DocsVisionClient.DocsVisionClasses.TagsOfLetter;
-using Tags = DocsVisionClient.DocsVisionClasses.Tags;
 
 namespace DocsVisionClient.DocsVisionWindows
 {
@@ -15,9 +11,7 @@ namespace DocsVisionClient.DocsVisionWindows
     public partial class AddEditLetterWindow : Window
     {
         #region Блок определений
-        // Объявляем делегаты методов обновления списка писем в окне работы с письмами и конвертирования тэгов выбранного письма
-        private ShowLettersList ShowLetters;
-        private ConvertedTagsOfLetter GetConvertedTagsOfLetter;
+        private ShowLettersList ShowLetters;                                    // Объявляем делегат метода обновления списка писем в окне работы с письмами
         private List<Departments> departmentsList = new List<Departments>();    // Создаем список отделов
         private List<Tags> tagsList = new List<Tags>();                         // Создаем список тэгов
         private List<TagsOfLetter> tagsOfLetterList = new List<TagsOfLetter>(); // Создаем список тэгов выбранного письма
@@ -32,15 +26,13 @@ namespace DocsVisionClient.DocsVisionWindows
         /// Конструктор для добавления нового письма
         /// </summary>
         /// <param name="departmentsList"> Список отделов организации </param>
-        /// <param name="ShowLetters"> Делегат конвертирования и отображения списка писем в окне работы с письмами </param>
-        /// <param name="GetConvertedTagsOfLetter"> Делегат конвертирования списка тэгов письма </param>
+        /// <param name="ShowLetters"> Делегат метода отображения списка писем в окне работы с письмами </param>
         /// <param name="selectCondition"> Условие поиска писем </param>
-        public AddEditLetterWindow(List<Departments> departmentsList, ShowLettersList ShowLetters, ConvertedTagsOfLetter GetConvertedTagsOfLetter, string selectCondition)
+        public AddEditLetterWindow(List<Departments> departmentsList, ShowLettersList ShowLetters, string selectCondition)
         {
             // Инициализируем поля класса
             this.departmentsList = departmentsList;                           // Список отделов организации
-            this.ShowLetters = ShowLetters;                                   // Делегат конвертирования и отображения списка писем окна работы с письмами
-            this.GetConvertedTagsOfLetter = GetConvertedTagsOfLetter;         // Делегат конвертирования тэгов письма
+            this.ShowLetters = ShowLetters;                                   // Делегат метода отображения списка писем окна работы с письмами
             this.selectCondition = selectCondition;                           // Условие поиска
             InitializeComponent();
             CommonStartActions();                                             // Вызываем метод общих операций
@@ -52,17 +44,15 @@ namespace DocsVisionClient.DocsVisionWindows
         /// Конструктор для редактирования выбранного письма
         /// </summary>
         /// <param name="departmentsList"> Список отделов организации </param>
-        /// <param name="ShowLetters"> Делегат конвертирования и отображения списка писем в окне работы с письмами </param>
+        /// <param name="ShowLetters"> Делегат метода отображения списка писем в окне работы с письмами </param>
         /// <param name="inputLetters"> Экземпляр класса выбранного письма (получен из окна работы с письмами) </param>
-        /// <param name="GetConvertedTagsOfLetter"> Делегат конвертирования списка тэгов письма </param>
         /// <param name="selectCondition"> Условие поиска писем </param>
-        public AddEditLetterWindow(List<Departments> departmentsList, ShowLettersList ShowLetters, Letters inputLetters, ConvertedTagsOfLetter GetConvertedTagsOfLetter, string selectCondition)
+        public AddEditLetterWindow(List<Departments> departmentsList, ShowLettersList ShowLetters, Letters inputLetters, string selectCondition)
         {
             // Инициализируем поля класса
             this.inputLetters = inputLetters;                             // Экземпляр редактируемого письма
-            this.GetConvertedTagsOfLetter = GetConvertedTagsOfLetter;     // Делегат конвертирования тэгов письма
             this.departmentsList = departmentsList;                       // Список отделов организации
-            this.ShowLetters = ShowLetters;                               // Делегат конвертирования и отображения списка писем окна работы с письмами
+            this.ShowLetters = ShowLetters;                               // Делегат метода отображения списка писем окна работы с письмами
             this.selectCondition = selectCondition;                       // Условие поиска
             InitializeComponent();
             CommonStartActions();                                         // Вызываем метод общих операций
@@ -85,7 +75,7 @@ namespace DocsVisionClient.DocsVisionWindows
             combobxDepartments.ItemsSource = departmentsList; // Привязываем комбобокс выбора отдела к списку отделов
             // Вызываем метод получения тэгов (для использования в комбобоксе выбора тэгов)
             // Получаем кортеж: Первый параметр - список тэгов, второй параметр - код ошибки
-            (List<DocsVisionService.Tags> inputTagsList, int errorCode) = DocsVisionStage.GetTags();
+            (List<Tags> inputTagsList, int errorCode) = DocsVisionStage.GetTags();
             if (errorCode < 0)
             {
                 // Если произошла ошибка, выводим сообщение
@@ -93,7 +83,7 @@ namespace DocsVisionClient.DocsVisionWindows
             }
             else
             {
-                GetTags(inputTagsList); // Если все прошло успешно, конвертируем и связываем комбобокс со списком тэгов
+                combobxTags.ItemsSource = inputTagsList; // Сохраняем и связываем комбобокс со списком тэгов
             }
         }
 
@@ -105,7 +95,7 @@ namespace DocsVisionClient.DocsVisionWindows
         {
             // Вызываем метод получения списка тэгов для выбранного письма по идентификатору письма
             // Получаем кортеж: список тэгов редактируемого письма и код ошибки
-            (List<DocsVisionService.TagsOfLetter> tagsOfLetter, int tagsCode) = DocsVisionStage.GetTagsOfLetter(inputLetters.IDLetter);
+            (List<TagsOfLetter> tagsOfLetter, int tagsCode) = DocsVisionStage.GetTagsOfLetter(inputLetters.IDLetter);
             if(tagsCode < 0)
             {
                 // В случае возникновения ошибки выводим ее пользователю
@@ -113,9 +103,10 @@ namespace DocsVisionClient.DocsVisionWindows
             }
             else
             {
-                // В случае успешного выполнения операции, конвертируем список тэгов и отображаем в контроле списка тэгов письма
-                tagsOfLetterList = GetConvertedTagsOfLetter(tagsOfLetter);
+                // В случае успешного выполнения операции, сохраняем список тэгов и отображаем в контроле списка тэгов письма
+                tagsOfLetterList = tagsOfLetter;
                 listbxTagsOfLetter.ItemsSource = tagsOfLetterList;
+                listbxTemp.ItemsSource = tagsOfLetter;
             }
         }
 
@@ -131,7 +122,7 @@ namespace DocsVisionClient.DocsVisionWindows
             // После возврата из окна работы с тэгами
             // Вызываем метод получения обновленного списка тэгов из БД (для обновления комбобокса со списком тэгов)
             // Возвращается кортеж: Первый параметр - список тэгов, второй параметр - код ошибки
-            (List<DocsVisionService.Tags> inputTagsList, int errorCode) = DocsVisionStage.GetTags();
+            (List<Tags> inputTagsList, int errorCode) = DocsVisionStage.GetTags();
             if (errorCode < 0)
             {
                 // В случае возникновения ошибки выборки списка тэгов, выводим сообщение пользователю
@@ -141,7 +132,7 @@ namespace DocsVisionClient.DocsVisionWindows
             {
                 // В случае успешной операции
                 tagsList.Clear(); // Очищаем список тэгов в классе окна
-                GetTags(inputTagsList); // Конвертируем и привязываем обновленный список тэгов к комбобоксу выбора тэгов
+                combobxTags.ItemsSource = inputTagsList; // Привязываем обновленный список тэгов к комбобоксу выбора тэгов
             }
         }
 
@@ -280,9 +271,8 @@ namespace DocsVisionClient.DocsVisionWindows
             {
                 // В случае, если с сервера пришел индекс, а не отрицательный код ошибки, то на данный момент письмо добавлено или отредактировано
                 // Вызываем метод обновления списка тэгов добавленного или отредактированного письма
-                // В метод конвертирования списка тэгов письма передаем два параметра: индекс позиции письма в списке писем и идентификатор письма
                 // И проверяем код ошибки (возвращаемый параметр)
-                int code = DocsVisionStage.UpdateTagsOfLetter(ConvertedTagsOfLetter(tagsOfLetterList, idNewRecord), idNewRecord);
+                int code = DocsVisionStage.UpdateTagsOfLetter(tagsOfLetterList, idNewRecord);
                 if (code < 0)
                 {
                     // Во время выборки списка тэгов письма произошла ошибка, сообщаем о ней пользователю
@@ -291,35 +281,12 @@ namespace DocsVisionClient.DocsVisionWindows
                 }
                 else
                 {
-                    // В случае, если выборка тэгов письма прошла успешно, вызываем метод конвертирования и отображения списка писем основного окна работы с письмами
+                    // В случае, если выборка тэгов письма прошла успешно, вызываем метод отображения списка писем основного окна работы с письмами
                     // Передаем туда два параметра: Индекс позиционируемой записи и условие поиска (для выполнения обновленного запроса поиска писем, соответствующих условию)
                     ShowLetters(index, selectCondition);
                     this.Close(); // Закрываем окно
                 }
             }
-        }
-
-        /// <summary>
-        /// Метод конвертирования списка тэгов письма из одного в другое пространство имен
-        /// Этот метод формирует параметр, отправляемый на сервер
-        /// </summary>
-        /// <param name="tagsList"> Список тэгов пространства имен клиента </param>
-        /// <param name="idNew"> Идентификатор письма, для которого будет обновлен список тэгов </param>
-        /// <returns></returns>
-        public List<DocsVisionService.TagsOfLetter> ConvertedTagsOfLetter(List<TagsOfLetter> tagsList, int idNew)
-        {
-            // Создаем экземпляр списка тэгов в пространстве имен сервера
-            List<DocsVisionService.TagsOfLetter> resultTags = new List<DocsVisionService.TagsOfLetter>();
-            for (int i = 0; i < tagsList.Count; i++) // Пробегаем в цикле по списку тэгов клиента
-            {
-                DocsVisionService.TagsOfLetter tags = new DocsVisionService.TagsOfLetter()
-                {
-                    IDLetterLink = idNew,             // Задаем идентификатор письма
-                    IDTagLink = tagsList[i].IDTagLink // Задаем идентификатор связанного тэга
-                };
-                resultTags.Add(tags); // Добавляем запись в список тэгов письма
-            }
-            return resultTags; // Возвращаем список тэгов (он в пространстве имен сервера)
         }
 
         /// <summary>
@@ -337,25 +304,6 @@ namespace DocsVisionClient.DocsVisionWindows
             dpLetterDateTime.SelectedDate = inputLetters.LetterDateTime;        // Дата получения или отправки письма
             tbLetterContent.Text = inputLetters.LetterContent;                  // Содержание письма
             combobxDepartments.SelectedValue = inputLetters.IDDepartmentLetter; // Идентификатор отдела, к которому относится письмо
-        }
-    
-        /// <summary>
-        /// Метод конвертирования и привязки списка тэгов к контролу-комбобокс (выбор тэга)
-        /// </summary>
-        /// <param name="inputTags"> Список тэгов в пространстве имен сервера </param>
-        private void GetTags(List<DocsVisionService.Tags> inputTags)
-        {
-            List<Tags> resultTags = new List<Tags>();
-            for (int i = 0; i < inputTags.Count; i++)
-            {
-                Tags tag = new Tags()
-                {
-                    IDTag = inputTags[i].IDTag,
-                    TagName = inputTags[i].TagName
-                };
-                resultTags.Add(tag);
-            }
-            combobxTags.ItemsSource = resultTags;
         }
     }
 }

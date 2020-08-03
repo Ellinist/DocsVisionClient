@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using DocsVisionClient.DocsVisionService;
-using Departments = DocsVisionClient.DocsVisionClasses.Departments;
 
 namespace DocsVisionClient.DocsVisionWindows
 {
@@ -21,27 +20,20 @@ namespace DocsVisionClient.DocsVisionWindows
         private DepartmentOperation operation; // Инициализируем перечислитель
         // Определяем сервис работы с контрактами сервера
         private DocsVisionServiceClient DocsVisionStage = new DocsVisionServiceClient();
-        /// <summary>
-        /// Объявление делегата метода конвертирования списка отделов (из одного в другое пространство имен)
-        /// </summary>
-        private ConvertedDepartments GetConvertedDepartments; // Объявляем делегат - указатель на метод конвертирования списка отделов
         #endregion
 
         /// <summary>
         /// Конструктор окна работы с отделами
         /// </summary>
-        /// <param name="ConvertDepartments"> Делегат метода конвертирования списка отделов </param>
-        public DepartmentsWindow(ConvertedDepartments ConvertDepartments)
+        public DepartmentsWindow()
         {
-            this.GetConvertedDepartments = ConvertDepartments; // Актуализируем делегат в рамках класса окна
             InitializeComponent();
             // Вытягиваем со стороны сервера кортеж со списком отделов и кодом выполнения операции
-            (List<DocsVisionService.Departments> selectDepartments, int selectErrCode) = DocsVisionStage.GetAllDepartments();
+            (List<Departments> selectDepartments, int selectErrCode) = DocsVisionStage.GetAllDepartments();
             if (selectErrCode == 1) // Проверка на успешность операции (через элемент кортежа по контракту)
             {
-                // Все хорошо: производим конвертирование списка отделов
-                departmentsList = ConvertDepartments(selectDepartments);
-                dgDepartments.ItemsSource = departmentsList;                  // Связываем DataGrid со списком отделов организации
+                // Все успешно - продолжаем работу
+                departmentsList = selectDepartments;
                 #region Установка начальных параметров элементов окна
                 tbDepartmentName.IsEnabled = false;                        // Устанавливаем недоступность поля "Название отдела"
                 tbDepartmentComment.IsEnabled = false;                     // Устанавливаем недоступность поля "Комментарий к отделу"
@@ -73,6 +65,7 @@ namespace DocsVisionClient.DocsVisionWindows
         /// <param name="e"></param>
         private void DepartmentsWindow_Loaded(object sender, RoutedEventArgs e)
         {
+            dgDepartments.ItemsSource = departmentsList;                      // Связываем DataGrid со списком отделов организации
             dgDepartments.SelectionChanged += DgDepartments_SelectionChanged; // Подписываемся на событие изменения выбора в DataGrid
             dgDepartments.SelectedIndex = 0;                                  // Позиционируем выбор в DataGrid на первой записи
             dgDepartments.Focus();                                            // Устанавливаем фокус на строке позиционирования
@@ -130,13 +123,13 @@ namespace DocsVisionClient.DocsVisionWindows
                     else
                     {
                         // Вызываем метод получения обновленного списка отделов - возврат: кортеж (список отделов, код ошибки)
-                        (List<DocsVisionService.Departments> selectDepartments, int selectErrCode) = DocsVisionStage.GetAllDepartments();
+                        (List<Departments> selectDepartments, int selectErrCode) = DocsVisionStage.GetAllDepartments();
                         if(selectErrCode == 1)
                         {
-                            departmentsList.Clear();                                  // Очищаем существующий список отделов
-                            departmentsList = GetConvertedDepartments(selectDepartments); // Ссылаемся на новый список отделов в кортеже
-                            dgDepartments.ItemsSource = departmentsList;              // Связываем DataGrid со списком отделов организации
-                            dgDepartments.SelectedIndex = index;                      // Позиционируем выбор в DataGrid на добавленной записи
+                            departmentsList.Clear();                     // Очищаем существующий список отделов
+                            departmentsList = selectDepartments;         // Ссылаемся на новый список отделов в кортеже
+                            dgDepartments.ItemsSource = departmentsList; // Связываем DataGrid со списком отделов организации
+                            dgDepartments.SelectedIndex = index;         // Позиционируем выбор в DataGrid на добавленной записи
                         }
                         else
                         {
@@ -174,13 +167,13 @@ namespace DocsVisionClient.DocsVisionWindows
                     }
                     else
                     {
-                        (List<DocsVisionService.Departments> selectDepartments, int selectErrCode) = DocsVisionStage.GetAllDepartments();
+                        (List<Departments> selectDepartments, int selectErrCode) = DocsVisionStage.GetAllDepartments();
                         if(selectErrCode == 1)
                         {
-                            departmentsList.Clear();                                  // Очищаем существующий список отделов
-                            departmentsList = GetConvertedDepartments(selectDepartments); // Ссылаемся на новый список отделов в кортеже
-                            dgDepartments.ItemsSource = departmentsList;              // Связываем DataGrid со списком отделов организации
-                            dgDepartments.SelectedIndex = index;                      // Позиционируем выбор в DataGrid на обновленной записи
+                            departmentsList.Clear();                     // Очищаем существующий список отделов
+                            departmentsList = selectDepartments;         // Ссылаемся на новый список отделов в кортеже
+                            dgDepartments.ItemsSource = departmentsList; // Связываем DataGrid со списком отделов организации
+                            dgDepartments.SelectedIndex = index;         // Позиционируем выбор в DataGrid на обновленной записи
                         }
                         else
                         {
@@ -227,12 +220,12 @@ namespace DocsVisionClient.DocsVisionWindows
                 {
                     // Удаление прошло успешно
                     // Получаем обновленный список отделов
-                    (List<DocsVisionService.Departments> selectDepartments, int selectErrCode) = DocsVisionStage.GetAllDepartments();
+                    (List<Departments> selectDepartments, int selectErrCode) = DocsVisionStage.GetAllDepartments();
                     if (selectErrCode == 1)
                     {
-                        departmentsList.Clear();                                  // Очищаем список отделов
-                        departmentsList = GetConvertedDepartments(selectDepartments); // Ссылаемся на новый список отделов в кортеже
-                        dgDepartments.ItemsSource = departmentsList;              // Связываем DataGrid со списком отделов организации
+                        departmentsList.Clear();                     // Очищаем список отделов
+                        departmentsList = selectDepartments;         // Ссылаемся на новый список отделов в кортеже
+                        dgDepartments.ItemsSource = departmentsList; // Связываем DataGrid со списком отделов организации
                         // Позиционируемся в DataGrid после удаления
                         dgDepartments.SelectedIndex = (indexPosition == 0) ? 0 : indexPosition - 1;
                     }

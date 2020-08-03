@@ -1,18 +1,13 @@
-﻿//using DocsVisionClient.DocsVisionClasses;
-using DocsVisionClient.DocsVisionService;
+﻿using DocsVisionClient.DocsVisionService;
 using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
-using Departments = DocsVisionClient.DocsVisionClasses.Departments;
-using Letters = DocsVisionClient.DocsVisionClasses.Letters;
-using TagsOfLetter = DocsVisionClient.DocsVisionClasses.TagsOfLetter;
 
 namespace DocsVisionClient.DocsVisionWindows
 {
     #region Объявляем делегаты
     public delegate void ShowLettersList(int positionIndex, string selectCondition); // Объявляем тип делегата метода отображения списка писем
-    public delegate List<TagsOfLetter> ConvertedTagsOfLetter(List<DocsVisionService.TagsOfLetter> inputTags); // Объявляем тип делегата для конвертирования списка тэгов письма
     #endregion
 
     /// <summary>
@@ -22,7 +17,7 @@ namespace DocsVisionClient.DocsVisionWindows
     {
         #region Блок определений
         private List<Letters> lettersList = new List<Letters>();                                  // Создаем список писем
-        private readonly List<Departments> departmentsList = new List<Departments>();             // Создаем список отделов
+        private List<Departments> departmentsList = new List<Departments>();                      // Создаем список отделов
         private List<TagsOfLetter> tagsOfLetterList = new List<TagsOfLetter>();                   // Создаем список тэгов письма
         private readonly DocsVisionServiceClient DocsVisionStage = new DocsVisionServiceClient(); // Подключаемся к WCF-сервису
         private string selectCondition;                                                           // Объявляем условие поиска
@@ -31,16 +26,14 @@ namespace DocsVisionClient.DocsVisionWindows
         /// <summary>
         /// Конструктор окна работы с письмами
         /// </summary>
-        /// <param name="ConvertDepartments"> Делегат метода конвертирования списка отделов </param>
-        public LettersWindow(ConvertedDepartments ConvertDepartments)
+        public LettersWindow()
         {
             InitializeComponent();
             // Получаем кортеж списка отделов и кода ошибки
-            (List<DocsVisionService.Departments> selectDepartments, int selectErrCode) = DocsVisionStage.GetAllDepartments();
+            (List<Departments> selectDepartments, int selectErrCode) = DocsVisionStage.GetAllDepartments();
             if(selectErrCode == 1) // Проверка на успешность выборки списка отделов
             {
-                // Если запрос был успешным - конвертируем и получаем список отделов
-                departmentsList = ConvertDepartments(selectDepartments); // Конвертируем список отделов
+                departmentsList = selectDepartments; // Сохраняем список отделов
                 if(departmentsList.Count == 0)
                 {
                     // В БД не обнаружены отделы - дальнейшая работа с письмами невозможна, уведомляем об этом пользователя
@@ -146,9 +139,8 @@ namespace DocsVisionClient.DocsVisionWindows
             // Вызываем окно создания нового письма и передаем в конструктор окна (первый перегруженный конструктор) следующие аргументы:
             // 1. Список отделов организации;
             // 2. Делегат метода отображения списка писем;
-            // 3. Делегат метода конвертирования тэгов письма;
-            // 4. Условие поиска
-            AddEditLetterWindow addEditLetterWindow = new AddEditLetterWindow(departmentsList, ShowLetters, GetConvertedTagsOfLetter, selectCondition);
+            // 3. Условие поиска
+            AddEditLetterWindow addEditLetterWindow = new AddEditLetterWindow(departmentsList, ShowLetters, selectCondition);
             addEditLetterWindow.ShowDialog(); // Вызываем окно как диалог (модально)
             dgLetters.SelectionChanged += DgLetters_SelectionChanged; // Снова подписываемся на событие выбора позиции в DataGrid
             dgLetters.Focus(); // Устанавливаем фокус на позиционированной записи (свойство SelectedIndex - эта позиция задается в методе ShowLetters, вызываемом через делегат)
@@ -166,9 +158,8 @@ namespace DocsVisionClient.DocsVisionWindows
             // 1. Список отделов организации;
             // 2. Делегат метода отображения списка писем;
             // 3. Экземпляр выбранного для редактирования письма;
-            // 4. Делегат метода конвертирования тэгов письма;
-            // 5. Условие поиска
-            AddEditLetterWindow addEditLetterWindow = new AddEditLetterWindow(departmentsList, ShowLetters, lettersList[dgLetters.SelectedIndex], GetConvertedTagsOfLetter, selectCondition);
+            // 4. Условие поиска
+            AddEditLetterWindow addEditLetterWindow = new AddEditLetterWindow(departmentsList, ShowLetters, lettersList[dgLetters.SelectedIndex], selectCondition);
             addEditLetterWindow.ShowDialog(); // Вызываем окно как диалог (модально)
             dgLetters.SelectionChanged += DgLetters_SelectionChanged; // Снова подписываемся на событие выбора позиции в DataGrid
             dgLetters.Focus(); // Устанавливаем фокус на позиционированной записи (свойство SelectedIndex - эта позиция задается в методе ShowLetters, вызываемом через делегат)
@@ -219,7 +210,7 @@ namespace DocsVisionClient.DocsVisionWindows
             // Возвращаемое значение - кортеж
             // Первый параметр: Список тэгов выбранного письма;
             // Второй параметр: код ошибки
-            (List<DocsVisionService.TagsOfLetter> selectTags, int tagsCode) = DocsVisionStage.GetTagsOfLetter(lettersList[dgLetters.SelectedIndex].IDLetter);
+            (List<TagsOfLetter> selectTags, int tagsCode) = DocsVisionStage.GetTagsOfLetter(lettersList[dgLetters.SelectedIndex].IDLetter);
             if(tagsCode < 0)
             {
                 // Произошла ошибка при получении списка тэгов письма, сообщаем об этом пользователю
@@ -227,8 +218,8 @@ namespace DocsVisionClient.DocsVisionWindows
             }
             else
             {
-                tagsOfLetterList = GetConvertedTagsOfLetter(selectTags); // Вызываем метод конвертации списка тэгов письма
-                listbxTagsLetter.ItemsSource = tagsOfLetterList;         // Отображаем тэги в контроле-списке
+                tagsOfLetterList = selectTags; // Сохраняем список тэгов письма
+                listbxTagsLetter.ItemsSource = tagsOfLetterList; // Отображаем тэги в контроле-списке
             }
         }
 
@@ -254,7 +245,7 @@ namespace DocsVisionClient.DocsVisionWindows
             // Возвращаемое значение - кортеж
             // Первый параметр: Список писем, соответствующий условию поиска;
             // Второй параметр: код ошибки
-            (List<DocsVisionService.Letters> selectLetters, int selectCode) = DocsVisionStage.GetLetters(selectCondition);
+            (List<Letters> selectLetters, int selectCode) = DocsVisionStage.GetLetters(selectCondition);
             if(selectCode < 0)
             {
                 // Если код ошибки отрицательный, то выборка не удалась, сообщаем пользователю
@@ -267,7 +258,7 @@ namespace DocsVisionClient.DocsVisionWindows
                 // Метод кривой - надо искать другое решение (потому что записей в таблице писем божет быть больше ста миллионов)
                 lettersList.Clear(); // Очищаем список писем
                 MessageBox.Show("Созданное или отредактированное письмо не попадает в заданные критерии поиска! Оно отображено не будет!", "Уведомление!", MessageBoxButton.OK, MessageBoxImage.Information);
-                lettersList = GetConvertedLetters(selectLetters); // Получаем письма в соответствии с условиями поиска
+                lettersList = selectLetters; // Получаем письма в соответствии с условиями поиска
                 dgLetters.ItemsSource = lettersList;              // Перепривязываем список писем к DataGrid
                 dgLetters.SelectedIndex = 0;                      // Устанавливаем позиционирование на первой записи результирующего списка писем
             }
@@ -275,64 +266,10 @@ namespace DocsVisionClient.DocsVisionWindows
             {
                 // Если все условия соответствуют, то:
                 lettersList.Clear();                     // Очищаем список писем
-                lettersList = GetConvertedLetters(selectLetters); // Получаем письма в соответствии с условиями поиска (проводим конвертацию)
+                lettersList = selectLetters;             // Сохраняем список писем
                 dgLetters.ItemsSource = lettersList;     // Перепривязываем список писем к DataGrid
                 dgLetters.SelectedIndex = positionIndex; // Позиционируем список выбранных писем на индексированной записи
             }
-        }
-
-        /// <summary>
-        /// Метод конвертирования полученного списка писем
-        /// </summary>
-        /// <param name="inputLetters"> Список писем, полученный в другом пространстве имен (со стороны сервера) </param>
-        /// <returns> Конвертированный список писем </returns>
-        private List<Letters> GetConvertedLetters(List<DocsVisionService.Letters> inputLetters)
-        {
-            Letters letters; // Объявляем временный класс письма
-            List<Letters> ConvertedLetters = new List<Letters>(); // Создаем экземпляр конвертированного списка писем
-            #region Цикл: пробегаем по элементам полученного с сервера списка
-            for (int i = 0; i < inputLetters.Count; i++)
-            {
-                letters = new Letters(); // Создаем новый экземпляр класса писем
-                // Начинаем конвертацию
-                letters.IDLetter               = inputLetters[i].IDLetter;
-                letters.IDDepartmentLetter     = inputLetters[i].IDDepartmentLetter;
-                letters.LetterName             = inputLetters[i].LetterName;
-                letters.LetterTopic            = inputLetters[i].LetterTopic;
-                letters.LetterDateTime         = inputLetters[i].LetterDateTime;
-                letters.LetterFrom             = inputLetters[i].LetterFrom;
-                letters.LetterTo               = inputLetters[i].LetterTo;
-                letters.LetterContent          = inputLetters[i].LetterContent;
-                letters.LetterComment          = inputLetters[i].LetterComment;
-                letters.LetterRegisterDateTime = inputLetters[i].LetterRegisterDateTime;
-                letters.IsLetterIncoming       = inputLetters[i].IsLetterIncoming;
-                ConvertedLetters.Add(letters); // Добавляем в список конвертированное письмо
-            }
-            #endregion
-            return ConvertedLetters; // Возвращаем конвертированный список писем
-        }
-
-        /// <summary>
-        /// Метод конвертирования полученного списка тэгов выбранного письма
-        /// </summary>
-        /// <param name="inputTags"> Список тэгов, полученный в другом пространстве имен (со стороны сервера) </param>
-        /// <returns> Конвертированный список тэгов выбранного письма </returns>
-        private List<TagsOfLetter> GetConvertedTagsOfLetter(List<DocsVisionService.TagsOfLetter> inputTags)
-        {
-            TagsOfLetter tags; // Объявляем временный класс тэгов письма
-            List<TagsOfLetter> ConvertedTagsOfLetter = new List<TagsOfLetter>(); // Создаем экземпляр конвертированного списка тэгов письма
-            #region Цикл: пробегаем по элементам полученного с сервера массива
-            for (int i = 0; i < inputTags.Count; i++)
-            {
-                tags = new TagsOfLetter(); // Создаем новый экземпляр класса тэгов письма
-                // Начинаем конвертацию
-                tags.IDLetterLink = inputTags[i].IDLetterLink;
-                tags.IDTagLink = inputTags[i].IDTagLink;
-                tags.TagName = inputTags[i].TagName;
-                ConvertedTagsOfLetter.Add(tags); // Добавляем в список конвертированный экземпляр класа тэгов письма
-            }
-            #endregion
-            return ConvertedTagsOfLetter; // Возвращаем конвертированный список тэгов письма
         }
     }
 }
